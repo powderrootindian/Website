@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ginger Powder – Powder Root</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{background:black;color:gold;font-family:Arial;padding:20px}
+img{width:100%;border-radius:15px}
+button{padding:12px 20px;background:gold;border:none;border-radius:8px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<img src="images/ginger.jpg">
+
+<h1>Ginger Powder</h1>
+<h2>₹299</h2>
+
+<p>✔ 100% Pure<br>✔ No Chemicals<br>✔ Premium Quality<br>✔ Made in India</p>
+
+<button onclick="addToCart()">Add to Cart</button>
+<a href="https://wa.me/919096999662"><button>WhatsApp</button></a>
+
+<script>
+function addToCart(){
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  cart.push({name:"Ginger Powder", price:349});
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Added to cart");
+}
+</script>
+
+</body>
+</html>

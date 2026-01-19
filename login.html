@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login - Powder Root</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="background:black;color:gold;font-family:Arial;text-align:center;padding:40px">
+
+<h1>Login to Continue</h1>
+
+<button id="googleBtn" style="padding:12px 20px;background:gold;border:none;border-radius:8px">
+<img src="images/google.png" width="20"> Sign in with Google
+</button>
+
+<script type="module">
+import { auth } from "./firebase.js";
+import { GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
+const provider = new GoogleAuthProvider();
+document.getElementById("googleBtn").onclick = async ()=>{
+  await signInWithPopup(auth, provider);
+  window.location.href="checkout.html";
+};
+</script>
+
+</body>
+</html>

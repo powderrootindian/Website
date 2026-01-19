@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Checkout</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="emailjs-init.js"></script>
+<script src="invoice-email.js"></script>
+</head>
+
+<body style="background:black;color:gold;font-family:Arial;padding:20px">
+
+<h1>Checkout</h1>
+
+<input id="name" placeholder="Full Name"><br><br>
+<input id="phone" placeholder="Phone Number"><br><br>
+<input id="address" placeholder="Address"><br><br>
+
+<button onclick="placeOrder()">Place Order</button>
+
+<script type="module">
+import { db, auth } from "./firebase.js";
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
+onAuthStateChanged(auth,user=>{
+  if(!user) window.location.href="login.html";
+});
+
+let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+window.placeOrder = async ()=>{
+  const name=document.getElementById("name").value;
+  const phone=document.getElementById("phone").value;
+  const address=document.getElementById("address").value;
+
+  await addDoc(collection(db,"orders"),{
+    name, phone, address,
+    cart,
+    email: auth.currentUser.email,
+    time: serverTimestamp()
+  });
+
+  sendInvoiceEmail(name, auth.currentUser.email, cart);
+  localStorage.removeItem("cart");
+  window.location.href="success.html";
+};
+</script>
+
+</body>
+</html>

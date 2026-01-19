@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<body style="background:black;color:gold;font-family:Arial;padding:20px">
+
+<h1>Admin Orders</h1>
+<div id="orders"></div>
+
+<script type="module">
+import { db, auth } from "./firebase.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
+onAuthStateChanged(auth,user=>{
+  if(!user || user.email!=="YOUR_GMAIL@gmail.com"){
+    alert("Access denied");
+    location.href="login.html";
+  }
+});
+
+const snap = await getDocs(collection(db,"orders"));
+let html="";
+snap.forEach(d=>{
+  const o=d.data();
+  html+=`<div style="border:1px solid gold;padding:10px;margin:10px">
+  ${o.name}<br>${o.phone}<br>${o.address}<br>${JSON.stringify(o.cart)}
+  </div>`;
+});
+document.getElementById("orders").innerHTML=html;
+</script>
+
+</body>
+</html>
